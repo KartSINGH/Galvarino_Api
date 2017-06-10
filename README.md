@@ -1,2 +1,2 @@
-# Galvarino_Api
-Api for Galvarino Promotional
+# Scrapp_Api
+Api for Scrapp promotional website
