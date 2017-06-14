@@ -10,12 +10,12 @@ var router = require('express').Router(),
             primaryKey: true,
             autoIncrement: true,
         },
-       
+
         user_email: {
             type: sequelize.STRING,
             allowNull: false,
         },
-        
+
     }, {
         freezeTableName: true,
         timestamps: true
@@ -48,22 +48,22 @@ router.post('/submit-request', (request, response) => {
         user_id: data_body.user_id,
 
         user_email: data_body.user_email,
-       
+
     }).then(function (user_name) {
         var name = user_name;
-        
+
         var transporter = nodemailer.createTransport({
-           
+
             service: 'Gmail',
             auth: {
                 user: 'kart.singh15@gmail.com',
                 pass: 'dragonballzee'
             },
-           
+
 
         });
 
-        var text = "Greetings " + name.user_name + " from Galvarino team!.We thank you for subscribing with us!We are coming soon to India.Stay Tuned.";
+        var text = "Greetings User" + " from Galvarino team!.We thank you for subscribing with us!We are coming soon to India.Stay Tuned.";
         var mailOptions = {
             to: name.user_email,
             from: 'kart.singh15@gmail.com',
@@ -72,28 +72,29 @@ router.post('/submit-request', (request, response) => {
         }
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
-                response.send(error)
+               console.log(error);
             } else {
-                response.send('email sent');
+                var text1 = "User Raised Request " + name.user_name;
+                var mailOptions1 = {
+                    to: 'nikhil.singh.moni@gmail.com',
+                    from: 'kart.singh15@gmail.com',
+                    subject: 'Galvarino|| Subscription Made',
+                    text: text1,
+                    html: '<h3>Booking ID </h3>' + name.user_id + '<p>User Email</p>' + name.user_email + " has made subscription with us."
+                }
+                transporter.sendMail(mailOptions1, function (error, info) {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        response.send(info);
+                        console.log(info);
+                    }
+                });
             }
         });
 
 
-        var text1 = "User Raised Request " + name.user_name;
-        var mailOptions1 = {
-            to: 'nikhil.singh.moni@gmail.com',
-            from: 'kart.singh15@gmail.com',
-            subject: 'Galvarino|| Subscription Made',
-            text: text1,
-            html: '<h3>Booking ID </h3>'+name.user_id+'<p>User Email</p>'+name.user_email + " has made subscription with us."
-        }
-        transporter.sendMail(mailOptions1, function (error, info) {
-            if (error) {
-                response.send(error)
-            } else {
-                response.send('admin email sent');
-            }
-        });
+
     })
 })
 module.exports = router;
