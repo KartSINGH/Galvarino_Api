@@ -1,2 +1,2 @@
-# Scrapp_Api
-Api for Scrapp promotional website
+# Galvarino Sample Api
+Api for Mailing content
