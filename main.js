@@ -18,9 +18,7 @@ app.get('/', (request, response) => {
   
 })
 
-app.use('/raise-request',require('./models/user'));
-
-app.listen(8880,function(){
+app.listen(8883,function(){
     console.log('Server Running');
 })
 
